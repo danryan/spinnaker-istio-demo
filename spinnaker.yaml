@@ -1,8 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: spinnaker-demo
-  namespace: default
+  name: spinnaker-istio-demo
+  namespace: demo
   labels:
     source: demo
     stack: frontend
@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: primary
-        image: gcr.io/danryan/spinnaker-istio-demo:v0.1
+        image: index.docker.io/danryan/spinnaker-istio-demo
         ports:
         - containerPort: 8080
         readinessProbe:
@@ -31,4 +31,3 @@ spec:
         env:
         - name: SAMPLE_APP_USER
           value: snicklefritz
-name: spinnaker-demo-config
