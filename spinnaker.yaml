@@ -30,5 +30,5 @@ spec:
             port: 8080
         env:
         - name: SAMPLE_APP_USER
-          value: snicklefritz
+          value: rumplestiltskin
           #
