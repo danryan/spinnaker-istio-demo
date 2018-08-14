@@ -24,7 +24,7 @@ def label = UUID.randomUUID().toString()
       ),
       containerTemplate(
         name: 'curl', 
-        image: 'appropriate/curl', 
+        image: 'tutum/curl', 
         ttyEnabled: true,
         resourceRequestCpu: '100m',
         resourceLimitMemory: '128Mi'
