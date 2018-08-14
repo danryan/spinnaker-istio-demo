@@ -1,30 +1,23 @@
-/**
- * Build and test the kubernetes plugin using the plugin itself in a Kubernetes cluster
- *
- * A `jenkins` service account needs to be created using src/main/kubernetes/service-account.yml
- *
- * A PersistentVolumeClaim needs to be created ahead of time with the definition in examples/maven-with-cache-pvc.yml
- *
- * NOTE that typically writable volumes can only be attached to one Pod at a time, so you can't execute
- * two concurrent jobs with this pipeline. Or change readOnly: true after the first run
- */
-
-def label = UUID.randomUUID().toString()
+// https://issues.jenkins-ci.org/browse/JENKINS-39801
+// import static java.util.UUID.randomUUID
+def label = "worker-${UUID.randomUUID().toString()}"
 
   podTemplate(
     serviceAccount: 'jenkins', 
     label: label, 
     containers: [
       containerTemplate(
-        name: 'demo', 
-        image: 'danryan/spinnaker-istio-demo', 
+        name: 'demo',
+        image: 'danryan/spinnaker-istio-demo',
+        command: 'true',
         ttyEnabled: true,
         resourceRequestCpu: '100m',
-        resourceLimitMemory: '1200Mi'
+        resourceLimitMemory: '128Mi'
       ),
       containerTemplate(
-        name: 'curl', 
-        image: 'tutum/curl', 
+        name: 'curl',
+        image: 'tutum/curl',
+        command: 'true',
         ttyEnabled: true,
         resourceRequestCpu: '100m',
         resourceLimitMemory: '128Mi'
@@ -34,10 +27,18 @@ def label = UUID.randomUUID().toString()
       envVar(key: 'BRANCH_NAME', value: env.BRANCH_NAME),
       envVar(key: 'BUILD_NUMBER', value: env.BUILD_NUMBER)
     ], 
-    volumes: []
+    volumes: [
+      hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock')
+    ]
   ) 
   {
-    node(label) {
+    node("node-${label}") {
+      def myRepo = checkout scm
+      def gitCommit = myRepo.GIT_COMMIT
+      def gitBranch = myRepo.GIT_BRANCH
+      def shortGitCommit = "${gitCommit[0..10]}"
+      def previousGitCommit = sh(script: "git rev-parse ${gitCommit}~", returnStdout: true)
+  
       stage('Checkout') {
         checkout scm
       }
