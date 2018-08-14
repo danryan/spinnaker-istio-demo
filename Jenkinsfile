@@ -11,7 +11,7 @@
 
 def label = UUID.randomUUID().toString()
 
-timestamps {
+// timestamps {
   podTemplate(
     serviceAccount: 'jenkins', 
     label: label, 
@@ -56,4 +56,4 @@ timestamps {
       }
     }
   }
-}
+// }
