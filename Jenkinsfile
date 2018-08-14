@@ -13,14 +13,14 @@ podTemplate(
       ttyEnabled: true,
       resourceRequestCpu: '100m',
       resourceLimitMemory: '128Mi'
-    // ),
-    // containerTemplate(
-    //   name: 'curl',
-    //   image: 'tutum/curl',
-    //   command: 'true',
-    //   ttyEnabled: true,
-    //   resourceRequestCpu: '100m',
-    //   resourceLimitMemory: '128Mi'
+    ),
+    containerTemplate(
+      name: 'curl',
+      image: 'tutum/curl',
+      command: 'true',
+      ttyEnabled: true,
+      resourceRequestCpu: '100m',
+      resourceLimitMemory: '128Mi'
     )
   ], 
   envVars: [
@@ -32,7 +32,7 @@ podTemplate(
   ]
 ) 
 {
-  node("node-${label}") {
+  node(label) {
     def myRepo = checkout scm
     def gitCommit = myRepo.GIT_COMMIT
     def gitBranch = myRepo.GIT_BRANCH
