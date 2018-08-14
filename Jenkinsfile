@@ -42,13 +42,15 @@ podTemplate(
     // stage('Checkout') {
     //   checkout scm
     // }
-    stage('Test') {
-      try {
-        // container('demo') {
-          sh 'echo "testing"'
-        // }
-      } finally {}
-    }
+    // stage('Test') {
+    //   try {
+    //     container('demo') {
+    //       // sh 'echo "testing"'
+    //     }
+    //   } finally {
+    //     sh 'echo "tested"'
+    //   }
+    // }
     // stage('Package') {
     //   try {
     //     // container('demo') {
@@ -56,12 +58,12 @@ podTemplate(
     //     // }
     //   } finally { }
     // }
-    // stage('Deploy') {
-    //   try {
-    //     container('curl') {
-    //       sh "curl -X POST -H 'Content-Type: application/json' -d '{\"build_url\":\"${env.BUILD_URL}\"}' https://api.spinnaker.k8s.us-east-2.bco.aws.cudaops.com/webhooks/webhook/demo-jenkins"
-    //     }
-    //   } finally {}
-    // }
+    stage('Deploy') {
+      try {
+        container('curl') {
+          sh "curl -X POST -H 'Content-Type: application/json' -d '{\"build_url\":\"${env.BUILD_URL}\"}' https://api.spinnaker.k8s.us-east-2.bco.aws.cudaops.com/webhooks/webhook/demo-jenkins"
+        }
+      } finally {}
+    }
   }
 }
