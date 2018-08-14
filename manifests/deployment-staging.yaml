@@ -3,9 +3,12 @@ kind: Deployment
 metadata:
   name: spinnaker-istio-demo
   namespace: demo
+  annotations:
+    moniker.spinnaker.io/application: demo
+    moniker.spinnaker.io/cluster: staging
+    moniker.spinnaker.io/stack: backend
   labels:
     source: demo
-    stack: frontend
     app: spinnaker
 spec:
   replicas: 3
@@ -30,5 +33,4 @@ spec:
             port: 8080
         env:
         - name: SAMPLE_APP_USER
-          value: rumplestiltskin
-          #
+          value: snicklefritz
