@@ -52,7 +52,7 @@ timestamps {
       stage('Deploy') {
         try {
           sh "curl -X POST -H 'Content-Type: application/json' -d '{\"build_url\":\"${env.BUILD_URL}\"}' https://api.spinnaker.k8s.us-east-2.bco.aws.cudaops.com/webhooks/webhook/demo-jenkins"
-        }
+        } finally {}
       }
     }
   }
