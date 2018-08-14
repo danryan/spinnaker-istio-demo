@@ -21,6 +21,13 @@ def label = UUID.randomUUID().toString()
         ttyEnabled: true,
         resourceRequestCpu: '100m',
         resourceLimitMemory: '1200Mi'
+      ),
+      containerTemplate(
+        name: 'curl', 
+        image: 'appropriate/curl', 
+        ttyEnabled: true,
+        resourceRequestCpu: '100m',
+        resourceLimitMemory: '128Mi'
       )
     ], 
     envVars: [
@@ -50,7 +57,9 @@ def label = UUID.randomUUID().toString()
       }
       stage('Deploy') {
         try {
-          sh "curl -X POST -H 'Content-Type: application/json' -d '{\"build_url\":\"${env.BUILD_URL}\"}' https://api.spinnaker.k8s.us-east-2.bco.aws.cudaops.com/webhooks/webhook/demo-jenkins"
+          container('curl') {
+            sh "curl -X POST -H 'Content-Type: application/json' -d '{\"build_url\":\"${env.BUILD_URL}\"}' https://api.spinnaker.k8s.us-east-2.bco.aws.cudaops.com/webhooks/webhook/demo-jenkins"
+          }
         } finally {}
       }
     }
