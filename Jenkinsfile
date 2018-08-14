@@ -36,16 +36,16 @@ def label = UUID.randomUUID().toString()
       }
       stage('Test') {
         try {
-          container('demo') {
+          // container('demo') {
             sh 'echo "testing"'
-          }
+          // }
         } finally {}
       }
       stage('Package') {
         try {
-          container('demo') {
+          // container('demo') {
             sh 'echo "packaging"'
-          }
+          // }
         } finally { }
       }
       stage('Deploy') {
