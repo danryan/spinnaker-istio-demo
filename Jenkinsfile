@@ -39,25 +39,25 @@ podTemplate(
     def shortGitCommit = "${gitCommit[0..10]}"
     def previousGitCommit = sh(script: "git rev-parse ${gitCommit}~", returnStdout: true)
 
-    // stage('Checkout') {
-    //   checkout scm
-    // }
-    // stage('Test') {
-    //   try {
-    //     container('demo') {
-    //       // sh 'echo "testing"'
-    //     }
-    //   } finally {
-    //     sh 'echo "tested"'
-    //   }
-    // }
-    // stage('Package') {
-    //   try {
-    //     // container('demo') {
-    //       sh 'echo "packaging"'
-    //     // }
-    //   } finally { }
-    // }
+    stage('Checkout') {
+      checkout scm
+    }
+    stage('Test') {
+      try {
+        container('demo') {
+          // sh 'echo "testing"'
+        }
+      } finally {
+        sh 'echo "tested"'
+      }
+    }
+    stage('Package') {
+      try {
+        // container('demo') {
+          sh 'echo "packaging"'
+        // }
+      } finally { }
+    }
     stage('Deploy') {
       try {
         container('curl') {
