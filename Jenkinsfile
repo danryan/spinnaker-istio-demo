@@ -34,8 +34,8 @@ podTemplate(
   node(label) {
     stage("Checkout") {
       def myRepo = checkout scm
-      def GIT_COMMIT = myRepo.GIT_COMMIT
-      def GIT_BRANCH = myRepo.GIT_BRANCH
+      def gitCommit = myRepo.GIT_COMMIT
+      def gitBranch = myRepo.GIT_BRANCH
       def shortGitCommit = "${gitCommit[0..10]}"
       def previousGitCommit = sh(script: "git rev-parse ${gitCommit}~", returnStdout: true)
     }
@@ -56,12 +56,12 @@ podTemplate(
           passwordVariable: 'DOCKER_HUB_PASSWORD']]) 
         sh """
           docker login -u ${DOCKER_HUB_USER} -p ${DOCKER_HUB_PASSWORD}
-          docker build -t ${namespace}/${app}:${GIT_BRANCH} .
-          docker tag ${namespace}/${app}:${GIT_BRANCH} ${namespace}/${app}:${GIT_COMMIT} 
-          docker push ${namespace}/${app}:${GIT_BRANCH}
-          docker push ${namespace}/${app}:${GIT_COMMIT}
+          docker build -t ${namespace}/${app}:${gitBranch} .
+          docker tag ${namespace}/${app}:${gitBranch} ${namespace}/${app}:${gitCommit} 
+          docker push ${namespace}/${app}:${gitBranch}
+          docker push ${namespace}/${app}:${gitCommit}
         """
       }
     }
   }
-}
+
