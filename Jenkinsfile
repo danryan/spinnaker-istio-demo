@@ -47,7 +47,9 @@ podTemplate(
       def gitBranch = myRepo.GIT_BRANCH
       def shortGitCommit = "${gitCommit[0..10]}"
       def previousGitCommit = sh(script: "git rev-parse ${gitCommit}~", returnStdout: true)
-    
+
+      def tag = (branch == "master") ? "latest" : branch
+
       container('docker') {
         git url: url, credentialsId: 'github:bco-jenkins-us-west-2'
         withCredentials([[$class: 'UsernamePasswordMultiBinding',
@@ -57,9 +59,9 @@ podTemplate(
         ){
           sh """
             docker login -u ${DOCKER_HUB_USER} -p ${DOCKER_HUB_PASSWORD}
-            docker build -t ${namespace}/${app}:${gitBranch} .
-            docker tag ${namespace}/${app}:${gitBranch} ${namespace}/${app}:${gitCommit} 
-            docker push ${namespace}/${app}:${gitBranch}
+            docker build -t ${namespace}/${app}:${tag} .
+            docker tag ${namespace}/${app}:${tag} ${namespace}/${app}:${gitCommit} 
+            docker push ${namespace}/${app}:${tag}
             docker push ${namespace}/${app}:${gitCommit}
           """
         }
