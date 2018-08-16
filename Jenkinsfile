@@ -32,13 +32,7 @@ podTemplate(
 ) 
 {
   node(label) {
-    stage("Checkout") {
-      def myRepo = checkout scm
-      def gitCommit = myRepo.GIT_COMMIT
-      def gitBranch = myRepo.GIT_BRANCH
-      def shortGitCommit = "${gitCommit[0..10]}"
-      def previousGitCommit = sh(script: "git rev-parse ${gitCommit}~", returnStdout: true)
-    }
+    stage("Checkout") {}
     // stage("Run Tests") {
     //   container('golang') {
     //     sh """
@@ -48,6 +42,12 @@ podTemplate(
     // }
 
     stage("Build") {
+      def myRepo = checkout scm
+      def gitCommit = myRepo.GIT_COMMIT
+      def gitBranch = myRepo.GIT_BRANCH
+      def shortGitCommit = "${gitCommit[0..10]}"
+      def previousGitCommit = sh(script: "git rev-parse ${gitCommit}~", returnStdout: true)
+    
       container('docker') {
         git url: url, credentialsId: 'github:bco-jenkins-us-west-2'
         withCredentials([[$class: 'UsernamePasswordMultiBinding',
