@@ -5,7 +5,7 @@ metadata:
   namespace: demo
 spec:
   hosts:
-  - '*'
+  - 'demo-staging.dryan.party'
   gateways:
   - demo-staging
   http:

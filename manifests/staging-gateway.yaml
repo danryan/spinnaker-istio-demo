@@ -12,4 +12,4 @@ spec:
       name: http
       protocol: HTTP
     hosts:
-    - "demo-staging.k8s.us-east-2.bco.aws.cudaops.com"
+    - "demo-staging.dryan.party"

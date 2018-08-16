@@ -5,16 +5,14 @@ metadata:
   namespace: demo
 spec:
   hosts:
-    - '*'
+    - 'demo.dryan.party'
   gateways:
   - demo
   http:
   - route:
     - destination:
         host: demo-production.demo.svc.cluster.local
-        subset: production
       weight: 100
     - destination:
         host: demo-canary.demo.svc.cluster.local
-        subset: canary
       weight: 0
