@@ -13,7 +13,6 @@ func main() {
 		user := os.Getenv("SAMPLE_APP_USER")
 		c.JSON(200, gin.H{"user": user})
 	})
-	0
 	router.GET("/ping", func(c *gin.Context) {
 		c.String(200, "KHAAAAAAHN")
 	})
