@@ -48,7 +48,7 @@ podTemplate(
       def shortGitCommit = "${gitCommit[0..10]}"
       def previousGitCommit = sh(script: "git rev-parse ${gitCommit}~", returnStdout: true)
 
-      def tag = (branch == "master") ? "latest" : branch
+      def tag = (gitBranch == "master") ? "latest" : gitBranch
 
       container('docker') {
         git url: url, credentialsId: 'github:bco-jenkins-us-west-2'
