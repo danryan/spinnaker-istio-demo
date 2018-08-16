@@ -53,14 +53,16 @@ podTemplate(
         withCredentials([[$class: 'UsernamePasswordMultiBinding',
           credentialsId: 'danryan',
           usernameVariable: 'DOCKER_HUB_USER',
-          passwordVariable: 'DOCKER_HUB_PASSWORD']]) 
-        sh """
-          docker login -u ${DOCKER_HUB_USER} -p ${DOCKER_HUB_PASSWORD}
-          docker build -t ${namespace}/${app}:${gitBranch} .
-          docker tag ${namespace}/${app}:${gitBranch} ${namespace}/${app}:${gitCommit} 
-          docker push ${namespace}/${app}:${gitBranch}
-          docker push ${namespace}/${app}:${gitCommit}
-        """
+          passwordVariable: 'DOCKER_HUB_PASSWORD']]
+        ){
+          sh """
+            docker login -u ${DOCKER_HUB_USER} -p ${DOCKER_HUB_PASSWORD}
+            docker build -t ${namespace}/${app}:${gitBranch} .
+            docker tag ${namespace}/${app}:${gitBranch} ${namespace}/${app}:${gitCommit} 
+            docker push ${namespace}/${app}:${gitBranch}
+            docker push ${namespace}/${app}:${gitCommit}
+          """
+        }
       }
     }
   }
