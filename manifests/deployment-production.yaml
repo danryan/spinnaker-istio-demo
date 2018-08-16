@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
       - name: primary
-        image: index.docker.io/danryan/spinnaker-istio-demo
+        image: index.docker.io/danryan/spinnaker-demo
         ports:
         - containerPort: 8080
         readinessProbe:
