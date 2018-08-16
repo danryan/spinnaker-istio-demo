@@ -1,5 +1,5 @@
 # Start by building the application.
-FROM golang:alpine as build
+FROM golang:alpine AS build
 
 RUN apk add --no-cache git build-base && \
     echo "http://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories && \
