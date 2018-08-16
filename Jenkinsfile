@@ -49,54 +49,19 @@ podTemplate(
 
     stage("Build") {
       container('docker') {
-          git url: url, credentialsId: 'github:bco-jenkins-us-west-2'
-          withCredentials([[$class: 'UsernamePasswordMultiBinding',
-            credentialsId: 'docker:danryan',
-            usernameVariable: 'DOCKER_HUB_USER',
-            passwordVariable: 'DOCKER_HUB_PASSWORD']]) 
-          sh """
-            docker login -u ${DOCKER_HUB_USER} -p ${DOCKER_HUB_PASSWORD}
-            docker build -t ${namespace}/${app}:${GIT_BRANCH} .
-            docker tag ${namespace}/${app}:${GIT_BRANCH} ${namespace}/${app}:${GIT_COMMIT} 
-            docker push ${namespace}/${app}:${GIT_BRANCH}
-            docker push ${namespace}/${app}:${GIT_COMMIT}
-          """
-        }
+        git url: url, credentialsId: 'github:bco-jenkins-us-west-2'
+        withCredentials([[$class: 'UsernamePasswordMultiBinding',
+          credentialsId: 'docker:danryan',
+          usernameVariable: 'DOCKER_HUB_USER',
+          passwordVariable: 'DOCKER_HUB_PASSWORD']]) 
+        sh """
+          docker login -u ${DOCKER_HUB_USER} -p ${DOCKER_HUB_PASSWORD}
+          docker build -t ${namespace}/${app}:${GIT_BRANCH} .
+          docker tag ${namespace}/${app}:${GIT_BRANCH} ${namespace}/${app}:${GIT_COMMIT} 
+          docker push ${namespace}/${app}:${GIT_BRANCH}
+          docker push ${namespace}/${app}:${GIT_COMMIT}
+        """
       }
     }
-
-
-    // def myRepo = checkout scm
-    // def gitCommit = myRepo.GIT_COMMIT
-    // def gitBranch = myRepo.GIT_BRANCH
-    // def shortGitCommit = "${gitCommit[0..10]}"
-    // def previousGitCommit = sh(script: "git rev-parse ${gitCommit}~", returnStdout: true)
-
-    // stage('Checkout') {
-    //   checkout scm
-    // }
-    // stage('Test') {
-    //   try {
-    //     container('demo') {
-    //       // sh 'echo "testing"'
-    //     }
-    //   } finally {
-    //     sh 'echo "tested"'
-    //   }
-    // }
-    // stage('Package') {
-    //   try {
-    //     // container('demo') {
-    //       sh 'echo "packaging"'
-    //     // }
-    //   } finally { }
-    // }
-    // stage('Deploy') {
-    //   try {
-    //     container('curl') {
-    //       sh "curl -X POST -H 'Content-Type: application/json' -d '{\"build_url\":\"${env.BUILD_URL}\"}' https://api.spinnaker.k8s.us-east-2.bco.aws.cudaops.com/webhooks/webhook/demo-jenkins"
-    //     }
-    //   } finally {}
-    // }
   }
 }
