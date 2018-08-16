@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo-staging
+  labels:
+    app: demo
+    stack: staging
+spec:
+  ports:
+  - port: 8080
+    name: http
+  selector:
+    app: demo
+    stack: staging

@@ -1,34 +1,38 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: spinnaker-istio-demo
+  name: spinnaker-istio-demo-production
   namespace: demo
   annotations:
     moniker.spinnaker.io/application: demo
     moniker.spinnaker.io/cluster: production
-    moniker.spinnaker.io/stack: backend
+    moniker.spinnaker.io/stack: production
   labels:
-    source: demo
-    app: spinnaker
+    app: demo
+    source: spinnaker
+    stack: production
 spec:
   replicas: 3
   selector:
     matchLabels:
-      source: demo
-      app: spinnaker
+      app: demo
+      source: spinnaker
+      stack: production
   template:
     metadata:
       annotations:
-        sidecar.istio.io/inject: "false"
+        sidecar.istio.io/inject: "true"
       labels:
-        source: demo
-        app: spinnaker
+        app: demo
+        source: spinnaker
+        stack: production
     spec:
       containers:
       - name: primary
         image: index.docker.io/danryan/spinnaker-demo
         ports:
         - containerPort: 8080
+          name: http
         readinessProbe:
           httpGet:
             path: /

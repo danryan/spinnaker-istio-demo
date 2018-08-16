@@ -1,0 +1,15 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: demo-production
+spec:
+  http:
+  - route:
+    - destination:
+        host: demo-production.demo.svc.cluster.local
+        subset: production
+      weight: 95
+    - destination:
+        host: demo-canary.demo.svc.cluster.local
+        subset: canary
+      weight: 5

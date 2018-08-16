@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spinnaker-istio-demo-canary
+  namespace: demo
+  annotations:
+    moniker.spinnaker.io/application: demo
+    moniker.spinnaker.io/cluster: canary
+    moniker.spinnaker.io/stack: canary
+
+  labels:
+    app: demo
+    source: spinnaker
+    stack: canary
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: demo
+      source: spinnaker
+      stack: canary
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: "true"
+      labels:
+        app: demo
+        source: spinnaker
+        stack: canary
+    spec:
+      containers:
+      - name: primary
+        image: index.docker.io/danryan/spinnaker-demo
+        ports:
+        - containerPort: 8080
+          name: http
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8080
+        env:
+        - name: SAMPLE_APP_USER
+          value: snicklefritz

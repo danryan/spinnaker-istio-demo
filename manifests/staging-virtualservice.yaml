@@ -1,0 +1,16 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: demo-staging
+  namespace: demo
+spec:
+  hosts:
+  - demo-staging.k8s.us-east-2.bco.aws.cudaops.com
+  gateways:
+  - demo-staging
+  http:
+  - route:
+    - destination:
+        host: demo-staging.demo.svc.cluster.local
+        port: 
+          number: 8080
