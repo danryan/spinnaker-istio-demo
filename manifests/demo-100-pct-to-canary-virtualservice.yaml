@@ -3,6 +3,10 @@ kind: VirtualService
 metadata:
   name: demo-production
 spec:
+  hosts:
+    - '*'
+  gateways:
+  - demo
   http:
   - route:
     - destination:

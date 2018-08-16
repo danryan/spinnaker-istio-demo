@@ -2,9 +2,10 @@ apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: demo-production
+  namespace: demo
 spec:
   hosts:
-  - demo.k8s.us-east-2.bco.aws.cudaops.com
+    - '*'
   gateways:
   - demo
   http:

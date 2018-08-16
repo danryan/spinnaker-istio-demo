@@ -5,12 +5,12 @@ metadata:
   namespace: demo
 spec:
   hosts:
-  - demo-staging.k8s.us-east-2.bco.aws.cudaops.com
+  - '*'
   gateways:
   - demo-staging
   http:
   - route:
     - destination:
         host: demo-staging.demo.svc.cluster.local
-        port: 
-          number: 8080
+        subset: staging
+      weight: 100

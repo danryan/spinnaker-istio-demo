@@ -15,7 +15,7 @@ func main() {
 	})
 
 	router.GET("/ping", func(c *gin.Context) {
-		c.String(200, "BANG")
+		c.String(200, "pong")
 	})
 
 	router.Run(":8080")
