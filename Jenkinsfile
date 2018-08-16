@@ -51,7 +51,7 @@ podTemplate(
       container('docker') {
         git url: url, credentialsId: 'github:bco-jenkins-us-west-2'
         withCredentials([[$class: 'UsernamePasswordMultiBinding',
-          credentialsId: 'docker:danryan',
+          credentialsId: 'danryan',
           usernameVariable: 'DOCKER_HUB_USER',
           passwordVariable: 'DOCKER_HUB_PASSWORD']]) 
         sh """
