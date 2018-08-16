@@ -40,7 +40,7 @@ RUN upx -7 -qq app && \
     upx -t app && \
     mv ./app /go/bin/app
 
-FROM gcr.io/distroless/base
+FROM alpine
 COPY --from=build /go/bin/app /
 
 EXPOSE 8080
