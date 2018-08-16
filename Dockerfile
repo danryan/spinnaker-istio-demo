@@ -1,5 +1,6 @@
 # Start by building the application.
-FROM golang:alpine AS build
+# FROM golang:alpine AS build
+FROM golang:alpine
 
 RUN apk add --no-cache git build-base && \
     echo "http://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories && \
@@ -40,9 +41,6 @@ RUN upx -7 -qq app && \
     upx -t app && \
     mv ./app /go/bin/app
 
-FROM alpine
-COPY --from=build /go/bin/app /
-
 EXPOSE 8080
 
-ENTRYPOINT ["/app"]
+ENTRYPOINT ["/go/bin/app"]
