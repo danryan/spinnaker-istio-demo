@@ -14,7 +14,7 @@ func main() {
 		c.JSON(200, gin.H{"user": user})
 	})
 	router.GET("/ping", func(c *gin.Context) {
-		c.String(200, "PONG")
+		c.String(200, "GO PATS")
 	})
 
 	router.Run(":8080")
